@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transport</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Transport List</h2>
+    <button type="button" class="btn btn-primary" onclick="openCreateModal()">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+    <tr>
+        <th style="width: 140px;">Actions</th>
+        <th>ID</th>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Route</th>
+        <th>Capacity</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${transports}">
+        <td>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-warning"
+                        th:data-id="${t.id}"
+                        th:data-number="${t.number}"
+                        th:data-type="${t.transportType?.name()}"
+                        th:data-route="${t.route}"
+                        th:data-capacity="${t.capacity}"
+                        onclick="openEditModal(this)">
+                    Edit
+                </button>
+
+                <button class="btn btn-sm btn-outline-danger"
+                        th:data-id="${t.id}"
+                        onclick="deleteTransport(this)">
+                    Delete
+                </button>
+            </div>
+        </td>
+        <td th:text="${t.id}"></td>
+        <td th:text="${t.number}"></td>
+        <td th:text="${t.transportType}"></td>
+        <td th:text="${t.route}"></td>
+        <td th:text="${t.capacity}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="transportModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Transport</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="transportId">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Number</label>
+                        <input id="transportNumber" class="form-control" placeholder="BY1234">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Type</label>
+                        <select id="transportType" class="form-select">
+                            <option value="">Select Type</option>
+                            <option value="BUS">BUS</option>
+                            <option value="TRAM">TRAM</option>
+                            <option value="TROLLEYBUS">TROLLEYBUS</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label">Route</label>
+                        <input id="transportRoute" class="form-control" placeholder="A12">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Capacity</label>
+                        <input id="transportCapacity" type="number" class="form-control" placeholder="50">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="saveTransport()">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/transport.js}"></script>
+
+</body>
+</html>
